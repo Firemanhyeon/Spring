@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -20,9 +21,18 @@ public class BoardMapperTests {
 	@Setter(onMethod_= @Autowired)
 	private BoardMapper mapper;
 	
-
-
 	@Test
+	public void testListWithPaging() {
+		Criteria cri = new Criteria();
+		cri.setType("");
+		cri.setKeyword("test");
+		
+		mapper.getListWithPaging(cri).forEach(board -> {
+			log.info(board);
+		});
+	}
+
+	//@Test
 	public void testRead() {
 
 		//삭제
@@ -55,7 +65,7 @@ public class BoardMapperTests {
 		log.info(vo);
 	}
 	
-	@Test
+	//@Test
 	public void testGetList() {
 		mapper.getList().forEach(new Consumer<BoardVO>() {// == board -> log.info(board)
 			@Override
