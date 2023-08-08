@@ -27,10 +27,10 @@ public class ReplyController {
 	@Setter(onMethod_=@Autowired)
 	private ReplyService service;
 	
-	@PostMapping(value="/new",
-			consumes ="application/json",
-			produces = {MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<String> create (@RequestBody ReplyVO vo){
+	
+	//등록
+	@PostMapping(value="/new")
+	public ResponseEntity<String> create ( ReplyVO vo){
 		log.info("ReplyVO: "+ vo);
 		int insertCount = service.register(vo);
 		
@@ -40,6 +40,8 @@ public class ReplyController {
 						: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
+	
+	//전체조회(게시글의 댓글 페이징)
 	@GetMapping(value="/pages/{bno}/{page}",
 			produces = {MediaType.APPLICATION_JSON_VALUE ,MediaType.APPLICATION_ATOM_XML_VALUE}
 			)
@@ -51,4 +53,9 @@ public class ReplyController {
 		
 		return new ResponseEntity<>(list , HttpStatus.OK);
 	}
+	
+	//수정
+	
+	
+	//삭제
 }

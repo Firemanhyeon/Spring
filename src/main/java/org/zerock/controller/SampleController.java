@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.domain.SampleVO;
@@ -19,7 +20,7 @@ import lombok.extern.log4j.Log4j;
 //jsp 페이지 생성 (x) -> json 데이터 생성
 
 
-@RestController//이거 써주면 페이지가 반환되는게아니라 데이터가 반환된다.
+@RestController//이거 써주면 페이지가 반환되는게아니라 데이터가 반환된다. @ResponseBody 포함
 @RequestMapping("/sample")
 @Log4j
 public class SampleController {
@@ -29,9 +30,7 @@ public class SampleController {
 		log.info("MIME TYPE: " +MediaType.TEXT_PLAIN_VALUE);
 		return "안녕하세요";
 	}
-	@GetMapping(value="/getSample",
-			produces= { MediaType.APPLICATION_JSON_VALUE,
-				MediaType.APPLICATION_XML_VALUE})
+	@PostMapping(value="/getSample")
 		public SampleVO getSample() {
 			return new SampleVO(100,"길동","홍");
 		}
@@ -68,7 +67,8 @@ public class SampleController {
 			}
 			return result;
 		}
-		
+//http://localhost:8081/sample/product?cat=4444&pid=6666 이렇게써야하는데 귀찮으니 PathVariable 써서 
+		//http://localhost:8081/sample/product/board/100 이런식으로 고정값자리에 넣어주면 알아서 String 형식으로 반환 해준다
 		@GetMapping("/product/{cat}/{pid}")
 		public String[] getPath(@PathVariable("cat") String cat , @PathVariable("pid") Integer pid) {
 			return new String [] {"category: "+cat,"product: " +pid} ;

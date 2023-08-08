@@ -46,6 +46,22 @@
         </div>
     </div>
 </div>
+<!-- 댓글시작 -->
+<div id="replyList"></div>
+<!-- 댓글끝 -->
+
+<!-- 댓글등록시작 -->
+<div>
+	<form id="replyFrm">
+		<input type="hidden" name="bno" value="271" >
+		<input type="hidden" name="replyer" value="hong">
+		<input type="text" name="reply">
+		<button type="button" id="addReply">등록</button>
+	</form>
+</div>
+<!-- 댓글등록끝 -->
+<script src="/resources/js/reply.js"></script>
+
 <script>
 	var operForm = $('form');
 	$('button[data-oper="modify"]').on('click',function(){
