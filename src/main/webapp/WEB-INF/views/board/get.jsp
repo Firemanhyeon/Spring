@@ -34,7 +34,7 @@
                <!--  <button type="button" class="btn btn-default" onclick="location.href='modify?bno=${board.bno}'">Modify</button>
                 <button type="button" class="btn btn-default">Delete</button> -->
             <!-- </form> -->
-            <form id="operForm" action="/board/modify" method="get">
+            <form id="operForm" name="operForm" action="/board/modify" method="get">
             	<input type="hidden" id="bno" name="bno" value='<c:out value="${board.bno }"/>'>
             	<input type="hidden" name="pageNum" value='<c:out value="${cri.pageNum }"/>'>
             	<input type="hidden" name="amount" value='<c:out value="${cri.amount }"/>'>
@@ -53,7 +53,7 @@
 <!-- 댓글등록시작 -->
 <div>
 	<form id="replyFrm">
-		<input type="hidden" name="bno" value="271" >
+		<input type="hidden" name="bno" value="${board.bno }" >
 		<input type="hidden" name="replyer" value="hong">
 		<input type="text" name="reply">
 		<button type="button" id="addReply">등록</button>
@@ -65,7 +65,8 @@
 
 <script>
 	replyList(${board.bno});
-	var operForm = $('form');
+	var operForm = $('form[name="operForm"]');
+	console.log(operForm);
 	$('button[data-oper="modify"]').on('click',function(){
 		operForm.attr('action','/board/modify').submit();//form태그의 이벤트 호출
 	})

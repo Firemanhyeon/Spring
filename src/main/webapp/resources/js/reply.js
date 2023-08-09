@@ -5,14 +5,12 @@ console.log("댓글 처리")
 
 
 function replyList(bno){
-	console.log(bno);
 	$.ajax({
 		method: "get",        // == type
 		url: `/replies/pages/${bno}/1`,
 		//data: 필요없음
 		//contentType:
 		success: function(result){
-			console.log(result);
 			for(let i = 0 ; i<result.length;i++){
 				$('#replyList').append(result[i].reply+'<br>');
 				
@@ -28,9 +26,11 @@ $("#addReply").on('click',function(){
 		url: "/replies/new",
 		data: $("#replyFrm").serialize(),
 		success: function(result){
-			if(result=="success"){
+			if(result){
 				alert("등록완료")
-				replyList();
+				 $('input[name="reply"]').val('');
+				 $("#replyList").html('');
+				 replyList(result.bno);
 			}else{
 				alert("등록실패")
 			}

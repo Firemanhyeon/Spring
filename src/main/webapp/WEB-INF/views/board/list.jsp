@@ -36,7 +36,7 @@
 											</td>
 											<td><a class="move" href="<c:out value='${board.bno}'/>">
 													<c:out value="${board.title }" />
-													<b>[  <c:out value="${board.replyCnt }"/>]</b>
+													<b>[<c:out value="${board.replyCnt }"/>]</b>
 												</a>
 											</td>
 											<td>
@@ -131,7 +131,7 @@
 			</div>
 			<script>
 				$(document).ready(function () {
-					var result = '<c:out value="${result}" />';
+					var result = '<c:out value="${result}"/>';
 					console.log(result)
 
 					//모달창을 활요애서 메세지 보여주도록

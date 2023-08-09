@@ -28,20 +28,20 @@ public class ReplyController {
 	private ReplyService service;
 	
 	
-	//등록
+	//�벑濡�
 	@PostMapping(value="/new")
-	public ResponseEntity<String> create ( ReplyVO vo){
+	public ResponseEntity<ReplyVO> create (ReplyVO vo){
 		log.info("ReplyVO: "+ vo);
 		int insertCount = service.register(vo);
 		
 		log.info("Reply Insert Count: " + insertCount);
 		return insertCount ==1 
-				? new ResponseEntity<String>("success", HttpStatus.OK)
-						: new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+				? new ResponseEntity<ReplyVO>(vo, HttpStatus.OK)
+						: new ResponseEntity<ReplyVO>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	
-	//전체조회(게시글의 댓글 페이징)
+	//�쟾泥댁“�쉶(寃뚯떆湲��쓽 �뙎湲� �럹�씠吏�)
 	@GetMapping(value="/pages/{bno}/{page}",
 			produces = {MediaType.APPLICATION_JSON_VALUE ,MediaType.APPLICATION_ATOM_XML_VALUE}
 			)
@@ -50,12 +50,13 @@ public class ReplyController {
 		cri.setPageNum(page);
 		cri.setAmount(10);
 		List<ReplyVO> list = service.getList(cri, bno);
+		System.out.println(bno);
 		
 		return new ResponseEntity<>(list , HttpStatus.OK);
 	}
 	
-	//수정
+	//�닔�젙
 	
 	
-	//삭제
+	//�궘�젣
 }

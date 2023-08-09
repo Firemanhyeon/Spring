@@ -18,34 +18,34 @@ import org.zerock.service.BoardService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
-//servlet context에 등록해주고 @controller 하면 spring에서관리함
+//servlet context�뿉 �벑濡앺빐二쇨퀬 @controller �븯硫� spring�뿉�꽌愿�由ы븿
 @Controller
 @RequestMapping("/board/*")
-@AllArgsConstructor//생성자 생성된거까지 @data 해주는것
+@AllArgsConstructor//�깮�꽦�옄 �깮�꽦�맂嫄곌퉴吏� @data �빐二쇰뒗寃�
 @Log4j
 public class BoardController {
 	
-	@Autowired //생성자가 실행될때 객체를 주입.
+	@Autowired //�깮�꽦�옄媛� �떎�뻾�맆�븣 媛앹껜瑜� 二쇱엯.
 	private BoardService service;
 	
 
-	@GetMapping("/list")//get방식중에 list라는게 들어오면 list 메소드 실행하겠다
+	@GetMapping("/list")//get諛⑹떇以묒뿉 list�씪�뒗寃� �뱾�뼱�삤硫� list 硫붿냼�뱶 �떎�뻾�븯寃좊떎
 	public void list(Model model,Criteria cri ) {
 		log.info("list");
 		model.addAttribute("list",service.getList(cri));
 		int totalCnt = service.getTotalCount(cri);
 		model.addAttribute("pageMaker",new PageDTO(cri,totalCnt));
 	}
-	//등록구현메소드
+	//�벑濡앷뎄�쁽硫붿냼�뱶
 	@PostMapping("/register")
 	public String register(BoardVO board , RedirectAttributes rttr) {
 		service.register(board);
 		
-		rttr.addFlashAttribute("result","게시글"+board.getBno()+"번이 등록");
+		rttr.addFlashAttribute("result","寃뚯떆湲�"+board.getBno()+"踰덉씠 �벑濡�");
 		return "redirect:/board/list";
 	}
 	
-	//등록페이지이동
+	//�벑濡앺럹�씠吏��씠�룞
 	@GetMapping("/register")
 	public void register() {
 		
@@ -54,6 +54,7 @@ public class BoardController {
 	@GetMapping({"/get","/modify"})
 	public void get (@RequestParam("bno")Long bno , Model model, @ModelAttribute("cri") Criteria cri) {
 		model.addAttribute("board",service.get(bno));
+		System.out.println("asdf"+bno);
 	}
 	
 	
@@ -71,7 +72,6 @@ public class BoardController {
 	}
 	@PostMapping("/remove")
 	public String remove(@RequestParam("bno") Long bno , @ModelAttribute("cri") Criteria cri , RedirectAttributes rttr) {
-		System.out.println(123);
 		if(service.remove(bno)) {
 			rttr.addFlashAttribute("result","success");
 		}
