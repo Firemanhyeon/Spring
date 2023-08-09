@@ -1,17 +1,18 @@
 /*filename: reply.js */
 
 console.log("댓글 처리")
-replyList();
 
 
-function replyList(){
+
+function replyList(bno){
+	console.log(bno);
 	$.ajax({
 		method: "get",        // == type
-		url: "/replies/pages/271/1",
+		url: `/replies/pages/${bno}/1`,
 		//data: 필요없음
 		//contentType:
 		success: function(result){
-			$("#replyList").html("");
+			console.log(result);
 			for(let i = 0 ; i<result.length;i++){
 				$('#replyList').append(result[i].reply+'<br>');
 				

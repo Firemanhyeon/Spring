@@ -32,9 +32,9 @@
   
   <select id="getListWithPaging" resultType="org.zerock.domain.BoardVO" parameterType="org.zerock.domain.Criteria">
 	  	
-	  	select *
+	  	select  bno,title,content,writer,regdate,updatedate,replycnt
 	   	  from ( select /*+INDEX_DESC(tbl_board pk_board) */
-	                	rownum rn , bno ,title, content ,writer ,regdate ,updatedate
+	                	rownum rn , bno ,title, content ,writer ,regdate ,updatedate,replycnt
 	               from tbl_board
 	              where
 	          <include refid="criteria"></include>
@@ -86,4 +86,8 @@
   	 where bno =#{bno} 
   </update>
   
+  <update id="updateReplyCnt">
+  	update tbl_board 
+  	   set replycnt = replycnt + #{amount} where bno = #{bno}
+  </update>
 </mapper>

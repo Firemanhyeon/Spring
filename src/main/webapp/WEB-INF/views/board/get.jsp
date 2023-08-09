@@ -62,7 +62,9 @@
 <!-- 댓글등록끝 -->
 <script src="/resources/js/reply.js"></script>
 
+
 <script>
+	replyList(${board.bno});
 	var operForm = $('form');
 	$('button[data-oper="modify"]').on('click',function(){
 		operForm.attr('action','/board/modify').submit();//form태그의 이벤트 호출
