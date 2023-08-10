@@ -12,7 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.zerock.domain.CodeVO;
+import org.zerock.domain.CodeVOList;
 import org.zerock.domain.SampleVO;
 
 import lombok.extern.log4j.Log4j;
@@ -72,5 +77,20 @@ public class SampleController {
 		@GetMapping("/product/{cat}/{pid}")
 		public String[] getPath(@PathVariable("cat") String cat , @PathVariable("pid") Integer pid) {
 			return new String [] {"category: "+cat,"product: " +pid} ;
+		}
+		@GetMapping("/code")
+		public ModelAndView code() {
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("code");
+			//mv.addObject("key",value);
+			return mv;
+		}
+		@GetMapping("/param")
+		@ResponseBody
+		public List<CodeVO> param(@RequestParam(required = false ,
+										 defaultValue = "Kim") String name,
+											CodeVOList codeVOlist) {
+			log.info(codeVOlist);
+			return codeVOlist.getList();
 		}
 }
