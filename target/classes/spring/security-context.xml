@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="customLoginSuccessHandler" class="org.zerock.security.CustomLoginSuccessHandler"></bean>
+	<security:http pattern="/css/**" security="none"/>
+	 <security:http>
+	 <!-- 아무나 들어올수있게 설정 -->
+		<security:intercept-url pattern="/sample/**" access="permitAll()"/>
+		<security:intercept-url pattern="/login.jsp" access="permitAll()"/>
+		<security:intercept-url pattern="/top.jsp" access="permitAll()"/>
+		<security:intercept-url pattern="/" access="permitAll()"/>
+		
+		<!-- 관리자 -->
+		<security:intercept-url pattern="/admin/**" access="hasAuthority('ROLE_ADMIN')"/>
+		
+		<!-- 로그인해야지볼수있음 -->
+		<security:intercept-url pattern="/board" access="isAuthenticated()"/>
+		
+		<!--  authentication-success-handler-ref= 로그인성공 후 컨트롤로 이동하는역할 || login-page = 로그인페이지설정  -->
+		<security:form-login login-page="/login.jsp"
+		authentication-success-handler-ref="customLoginSuccessHandler" default-target-url="/top.jsp"/>
+		
+		<security:logout logout-url="/logout" logout-success-url="/login.jsp"/>
+		<security:csrf disabled="true"/>
+		
+		<security:access-denied-handler error-page="/accessError.jsp"/>
+
+	</security:http>
+	
+	<bean id="memberService" class="org.zerock.service.MemberServiceImpl"></bean>
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	<security:authentication-manager>
+		<security:authentication-provider user-service-ref="memberService">
+			<security:password-encoder ref="bCryptPasswordEncoder"/>
+		</security:authentication-provider>
+			
+	</security:authentication-manager>
+</beans>

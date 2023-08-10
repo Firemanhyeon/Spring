@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
     <!DOCTYPE html>
 <html lang="en">
 
@@ -58,7 +59,19 @@
                 <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
             </div>
             <!-- /.navbar-header -->
-
+            
+            <!-- 로그인일때 비로그인 , 관리자 다르게보이기 -->
+			<sec:authorize access="isAnonymous()">
+				로그인
+			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<sec:authentication property="principal.name"/>					
+			</sec:authorize>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				관리자
+			</sec:authorize>
+			
+			
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">

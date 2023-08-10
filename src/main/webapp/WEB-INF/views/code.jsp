@@ -48,19 +48,28 @@
 				
 			</tr>
 		</table>
-		<button type="button">ajax등록</button>
+		<button type="button" id="btnAdd">ajax등록</button>
 	</form>
 
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>
-	<script src="resources/js/json.min.js"></script>
+	<script src="/resources/js/json.min.js"></script>
 	<script>
+	$("#btnAdd").on('click',function(){
+		let list=[];
+		let arr=$('#frm').serializeArray();
+		for(i=0;i<arr.length;i=i+2){
+			list.push({ [arr[i].name] : arr[i].value,
+						[arr[i+1].name] : arr[i+1].value})
+		}
+		console.log(list);
+	})
 		$.ajax({
-			url:"",
-			method:"",
-			data:"",
-			contentType:"",
-			success:function(){
-				
+			url:"/sample/addlist",
+			method:"post",
+			data: JSON.stringify(list) ,
+			contentType:"application/json",
+			success:function(result){
+				console.log("응답결과:", result) 
 			}
 		})
 	</script>
